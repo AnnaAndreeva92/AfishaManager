@@ -1,6 +1,5 @@
 package ru.netology.manager;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Movie;
 
@@ -8,94 +7,97 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class MovieManagerTest {
 
+    private MovieManager manager = new MovieManager();
+    private Movie first = new Movie(1, "Bladshot", "http://", "actionMovie");
+    private Movie second = new Movie(2, "Forward", "http://", "cartoon");
+    private Movie third = new Movie(3, "HotelBelgrad", "http://", "comedy");
+    private Movie fourth = new Movie(4, "Gentlemen", "http://", "actionMovie");
+    private Movie fifth = new Movie(5, "InvisibleMan", "http://", "horrors");
+    private Movie sixth = new Movie(6, "Trolls.WorldTour", "http://", "cartoon");
+    private Movie seventh = new Movie(7, "NumberOne", "http://", "comedy");
+    private Movie eighth = new Movie(8, "DreamMakers", "http://", "animation");
+    private Movie ninth = new Movie(9, "Missing", "http://", "thriller");
+    private Movie tenth = new Movie(10, "RocketScientist", "http://", "drama");
 
-    Movie first = new Movie(1, "Bladshot", "http://", "actionMovie");
-    Movie second = new Movie(2, "Forward", "http://", "cartoon");
-    Movie third = new Movie(3, "HotelBelgrad", "http://", "comedy");
-    Movie fourth = new Movie(4, "Gentlemen", "http://", "actionMovie");
-    Movie fifth = new Movie(5, "InvisibleMan", "http://", "horrors");
-    Movie sixth = new Movie(6, "Trolls.WorldTour", "http://", "cartoon");
-    Movie seventh = new Movie(7, "NumberOne", "http://", "comedy");
-    Movie eighth = new Movie(8, "DreamMakers", "http://", "animation");
-    Movie ninth = new Movie(9, "Missing", "http://", "thriller");
-    Movie tenth = new Movie(10, "RocketScientist", "http://", "drama");
-
+Movie[] expected = {tenth,ninth, eighth,seventh,sixth,fifth,fourth, third, second, first};
 
     @Test
     public void addMovie() {
-        MovieManager manager = new MovieManager(5);
-        manager.add("first");
-        manager.add("second");
-        manager.add("third");
-        manager.add("fourth");
+        manager = new MovieManager();
+        manager.add(String.valueOf(fifth));
+        manager.add(String.valueOf(second));
+        manager.add(String.valueOf(third));
+        manager.add(String.valueOf(fourth));
 
-        Movie newMovie = new Movie(10,"threeСats","http://","cartoon" );
+        Movie newMovie = new Movie(11, "threeСats", "http://", "cartoon");
         manager.add(String.valueOf(newMovie));
         String[] actual = manager.findAll();
-        String[] expected = {"first","second","third", "fourth", String.valueOf(new Movie(10,"threeСats","http://","cartoon" ))};
+        String[] expected = {String.valueOf(fifth), String.valueOf(second), String.valueOf(third), String.valueOf(fourth), String.valueOf(new Movie(11, "threeСats", "http://", "cartoon"))};
         assertArrayEquals(actual, expected);
+
+    }
+
+    @Test
+    public void settingLimit() {
+        manager = new MovieManager(5);
+        manager.add(String.valueOf(first));
+        manager.add(String.valueOf(second));
+        manager.add(String.valueOf(third));
+        manager.add(String.valueOf(fourth));
+        manager.add(String.valueOf(fifth));
+
+        String[] actual = manager.findAll();
+        String[] expected = {String.valueOf(first), String.valueOf(second), String.valueOf(third), String.valueOf(fourth), String.valueOf(first)};
 
     }
 
     @Test
     public void ListAllMoviesInTheOrderTheyWereAdded() {
-        MovieManager manager = new MovieManager(10);
-        manager.add("first");
-        manager.add("second");
-        manager.add("third");
-        manager.add("fourth");
-        manager.add("fifth");
-        manager.add("sixth");
-        manager.add("seventh");
-        manager.add("eighth");
-        manager.add("ninth");
-        manager.add("tenth");
+        manager = new MovieManager();
+        manager.add(String.valueOf(first));
+        manager.add(String.valueOf(second));
+        manager.add(String.valueOf(third));
+        manager.add(String.valueOf(fourth));
+        manager.add(String.valueOf(fifth));
+        manager.add(String.valueOf(sixth));
+        manager.add(String.valueOf(seventh));
+        manager.add(String.valueOf(eighth));
+        manager.add(String.valueOf(ninth));
+        manager.add(String.valueOf(tenth));
 
         String[] actual = manager.findAll();
-        String[] expected = {"first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth"};
+        String[] expected = {String.valueOf(first), String.valueOf(second), String.valueOf(third), String.valueOf(fourth), String.valueOf(fifth), String.valueOf(sixth), String.valueOf(seventh), String.valueOf(eighth), String.valueOf(ninth), String.valueOf(tenth)};
         assertArrayEquals(actual, expected);
     }
 
     @Test
     public void DisplayingTheLatestAddedMoviesInReverseOrder() {
-        MovieManager manager = new MovieManager(10);
-        manager.add("first");
-        manager.add("second");
-        manager.add("third");
-        manager.add("fourth");
-        manager.add("fifth");
-        manager.add("sixth");
-        manager.add("seventh");
-        manager.add("eighth");
-        manager.add("ninth");
-        manager.add("tenth");
+        MovieManager manager = new MovieManager();
+        manager.add(String.valueOf(first));
+        manager.add(String.valueOf(second));
+        manager.add(String.valueOf(third));
+        manager.add(String.valueOf(fourth));
+        manager.add(String.valueOf(fifth));
+        manager.add(String.valueOf(sixth));
+        manager.add(String.valueOf(seventh));
+        manager.add(String.valueOf(eighth));
+        manager.add(String.valueOf(ninth));
+        manager.add(String.valueOf(tenth));
         String[] actual = manager.finsLast();
-        String[] expected = {"tenth","ninth","eighth","seventh","sixth","fifth","fourth","third","second","first"};
+        String[] expected = {String.valueOf(tenth), String.valueOf(ninth), String.valueOf(eighth), String.valueOf(seventh), String.valueOf(sixth), String.valueOf(fifth), String.valueOf(fourth), String.valueOf(third), String.valueOf(second), String.valueOf(first)};
         assertArrayEquals(actual, expected);
     }
-    @Test
-    void mustShowNothing() {
-        MovieManager manager = new MovieManager(0);
-        String[] actual = manager.finsLast();
-        String[] expected = new String[0];
-        assertArrayEquals(expected, actual);
-    }
-    @Test
-    void mustShowOverMax() {
-        MovieManager manager = new MovieManager(11);
-        manager.add("first");
-        manager.add("second");
-        manager.add("third");
-        manager.add("fourth");
-        manager.add("fifth");
-        manager.add("sixth");
-        manager.add("seventh");
-        manager.add("eighth");
-        manager.add("ninth");
-        manager.add("tenth");
-        String[] expected = {"tenth","ninth","eighth","seventh","sixth","fifth","fourth","third","second","first"};
-        String[] actual = manager.finsLast();
-        assertArrayEquals(expected, actual);
 
+    @Test
+    public void DisplayingTheLatestMoviesAddedInReverseOrderWithALimitSet() {
+        manager = new MovieManager(3);
+        manager.add(String.valueOf(first));
+        manager.add(String.valueOf(second));
+        manager.add(String.valueOf(third));
+
+        String[] actual = manager.finsLast();
+        String[] expected = {String.valueOf(third), String.valueOf(second), String.valueOf(first)};
+        assertArrayEquals(actual, expected);
     }
+
 }
