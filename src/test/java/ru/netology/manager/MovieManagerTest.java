@@ -19,7 +19,6 @@ public class MovieManagerTest {
     private Movie ninth = new Movie(9, "Missing", "http://", "thriller");
     private Movie tenth = new Movie(10, "RocketScientist", "http://", "drama");
 
-Movie[] expected = {tenth,ninth, eighth,seventh,sixth,fifth,fourth, third, second, first};
 
     @Test
     public void addMovie() {
@@ -49,6 +48,17 @@ Movie[] expected = {tenth,ninth, eighth,seventh,sixth,fifth,fourth, third, secon
         String[] actual = manager.findAll();
         String[] expected = {String.valueOf(first), String.valueOf(second), String.valueOf(third), String.valueOf(fourth), String.valueOf(first)};
 
+    }
+    @Test
+    public void exceedingTheLimit() {
+        manager = new MovieManager(3);
+        manager.add(String.valueOf(first));
+        manager.add(String.valueOf(second));
+        manager.add(String.valueOf(third));
+        manager.add(String.valueOf(fourth));
+
+        String[] actual = manager.findAll();
+        String[] expected = {String.valueOf(first), String.valueOf(second), String.valueOf(third)};
     }
 
     @Test
